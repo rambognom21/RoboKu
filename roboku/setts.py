@@ -33,3 +33,4 @@ BGCOLOR = GRASSCOL
 
 GAMEFOLDER = path.dirname(__file__)
 PICSFOLDER = path.join(GAMEFOLDER,'pics')
+SNDFOLDER = path.join(GAMEFOLDER,'sound')
