@@ -7,6 +7,9 @@ brawlbot_idle_preview.gif
 castledoors.png
 	https://opengameart.org/content/castle-door
 
+haakbier.gif
+	https://opengameart.org/content/happy-beer-mug-animated
+
 sea.png
 	https://opengameart.org/content/pastel-resources-tiles-96x96
 
@@ -29,5 +32,6 @@ tile_019.png
 
 justbeautifulandlem.jpg
 	https://www.facebook.com/PomyslyZwariowaneLubGenialne/photos/a.960120854060057/3003352646403524/?type=3&theater
+
 justbeautifulandbinary.gif
 	https://giphy.com/gifs/robot-book-scifi-q4hxvLu7emb28
