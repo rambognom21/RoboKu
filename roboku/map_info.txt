@@ -1,0 +1,8 @@
+Symbol | Data        | Additional Data
+ ----------------------------------------------------------------------
+ R  Roboku            |
+ D  Door              | Come back once you've gathered all items
+ I  Item              | Gotta Catch 'Em All
+ #  Bush              |
+ ~  Pond              | Cannot walk on it!
+ ,  Grass             |
