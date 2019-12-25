@@ -5,7 +5,7 @@ from sprites import *
 class Game:
 	def __init__(self):
 		pg.init()
-		#pg.mixer.init()
+		pg.mixer.init()
 		self.screen = pg.display.set_mode((WIDTH, HEIGHT))
 		pg.display.set_caption(TITLE)
 		pg.key.set_repeat(250, 50)#delay,interval
@@ -56,7 +56,7 @@ class Game:
 
 	def draw_scoreBar(self, surf, x, y, sco):
 		barPic = pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert()
-		barPic = pg.transform.scale(barPic, (TILESIZE/2,TILESIZE/2))
+		barPic = pg.transform.scale(barPic, (int(TILESIZE/2),int(TILESIZE/2)))
 		barPicRect = barPic.get_rect()
 		#
 		BAR_LENGTH = TILESIZE/2*7
@@ -84,14 +84,11 @@ class Game:
 		#self.screen.blit(buttxtSurf, buttxtRect)
 		self.draw_text(self.screen, buttxt, BLACK, 20, (bx+(bW/2)), (by+(bH/3)))
 
-	def changeBool(self, *TF):
-		if TF == True:
-			TF = False
-		else:
-			TF = True
-
-#GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME##GAME#
 	def run(self):
+		pg.mixer.music.stop()
+		pg.mixer.music.load(path.join(SNDFOLDER, 'SylvanWaltzmp3.mp3'))
+		pg.mixer.music.set_volume(0.2)
+		pg.mixer.music.play(-1)
 		while True:
 			self.events()
 			self.update()
@@ -118,6 +115,10 @@ class Game:
 
 	def main(self):
 		self.intro()
+		pg.mixer.music.load(path.join(SNDFOLDER, 'Ubermenschwav.wav'))
+		pg.mixer.music.set_volume(0.2)
+		pg.mixer.music.play(-1)
+		#pygame.mixer.music.stop()
 		self.menu = True
 		while self.menu:
 			pg.event.wait()
@@ -149,6 +150,10 @@ class Game:
 
 	def pause(self):
 		pg.event.wait()
+		pg.mixer.music.stop()
+		pg.mixer.music.load(path.join(SNDFOLDER, 'Ubermenschwav.wav'))
+		pg.mixer.music.set_volume(0.2)
+		pg.mixer.music.play(-1)
 		while self.stop:
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
