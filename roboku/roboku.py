@@ -161,6 +161,10 @@ class Game:
 				if event.type == pg.KEYDOWN:
 					if event.key == pg.K_SPACE:
 						self.stop = False
+						pg.mixer.music.stop()
+						pg.mixer.music.load(path.join(SNDFOLDER, 'SylvanWaltzmp3.mp3'))
+						pg.mixer.music.set_volume(0.2)
+						pg.mixer.music.play(-1)
 			self.screen.fill((0,0,0,80))
 			self.draw_text(self.screen, "PAUSE", WHITE, 100, WIDTH/2, HEIGHT/2-100)
 			self.draw_text(self.screen, "You move with W, S, A, D", WHITE, 20, WIDTH/2, HEIGHT-250)
