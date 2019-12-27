@@ -69,20 +69,20 @@ class Game:
 		for point in range(0,sco):
 			self.screen.blit(barPic,(x+point*TILESIZE/2,y))
 
-	def button(self, buttxt,bx,by,bW,bH,activeColor,inactiveColor,action=None):
+	def button(self, butTxt,bxMid,byTop,bWidth,bHeight,activeColor,inactiveColor,action=None):
 		mouse = pg.mouse.get_pos()
 		click = pg.mouse.get_pressed()
-		if bx+bW > mouse[0] > bx and by+bH > mouse[1] > by:
-			pg.draw.rect(self.screen, activeColor, (bx,by,bW,bH))
+
+		buttRect = pg.Rect(bxMid,byTop,bWidth,bHeight)
+		buttRect.midtop = (bxMid,byTop)
+
+		if bxMid+bWidth/2 > mouse[0] > bxMid-bWidth/2 and byTop+bHeight > mouse[1] > byTop:
+			pg.draw.rect(self.screen, activeColor, buttRect)
 			if click[0] == 1 and action != None:
 				action()
 		else:
-			pg.draw.rect(self.screen, inactiveColor, (bx,by,bW,bH))
-		#buttxtFont = pg.font.Font(None,20)
-		#buttxtSurf, buttxtRect = self.text_Obj(buttxt, buttxtFont)
-		#buttxtRect.center = ( (bx+(bW/2)), (by+(bH/2)) )
-		#self.screen.blit(buttxtSurf, buttxtRect)
-		self.draw_text(self.screen, buttxt, BLACK, 20, (bx+(bW/2)), (by+(bH/3)))
+			pg.draw.rect(self.screen, inactiveColor, buttRect)
+		self.draw_text(self.screen, butTxt, BLACK, bHeight/3, bxMid, byTop+bHeight/3)
 
 	def run(self):
 		pg.mixer.music.stop()
@@ -97,7 +97,6 @@ class Game:
 	def intro(self):
 		self.introBool = True
 		while self.introBool:
-			#pg.event.wait()
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
 					self.quit()
@@ -106,7 +105,6 @@ class Game:
 						self.introBool = False
 			self.screen.fill(BLACK)
 			introPic = pg.image.load(path.join(PICSFOLDER,'justbeautifulandlem.jpg')).convert()
-			#introPic = pg.transform.scale(introPic, (WIDTH,HEIGHT))
 			introPicRect = introPic.get_rect()
 			introPicRect.midtop = (WIDTH/2, HEIGHT/8)
 			self.screen.blit(introPic,introPicRect)
@@ -114,43 +112,49 @@ class Game:
 			pg.display.update()
 
 	def main(self):
-		self.intro()
 		pg.mixer.music.load(path.join(SNDFOLDER, 'Ubermenschwav.wav'))
 		pg.mixer.music.set_volume(0.2)
 		pg.mixer.music.play(-1)
-		#pygame.mixer.music.stop()
 		self.menu = True
 		while self.menu:
 			pg.event.wait()
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
 					self.quit()
-	#			if event.type == pg.KEYDOWN:
-	#				if event.key == pg.K_SPACE:
-	#					self.stop = False
-			#self.screen.fill(WHITE)
-			#titleFont = pg.font.Font('freesansbold.ttf',int(HEIGHT*4/14))
-			#titleSurf, titleRect = self.text_Obj("RoboKu", titleFont)
-			#titleRect.center = ((WIDTH/2),(HEIGHT*3/14))
-			#self.screen.blit(titleSurf, titleRect)
 			self.screen.fill(BLACK)
 			mainPic = pg.image.load(path.join(PICSFOLDER,'justbeautifulandbinary.gif')).convert()
-			#introPic = pg.transform.scale(introPic, (WIDTH,HEIGHT))
 			mainPicRect = mainPic.get_rect()
 			mainPicRect.midtop = (WIDTH/2, HEIGHT/8)
 			self.screen.blit(mainPic,mainPicRect)
 			self.draw_text(self.screen, "RoboKu", TITLESHADCOL, int(HEIGHT/4-5), (WIDTH/2), (HEIGHT*3/16))
 			self.draw_text(self.screen, "RoboKu", TITLECOL, int(HEIGHT/4), (WIDTH/2), (HEIGHT*3/16))
 
-			buttHeight = HEIGHT/12
+			buttHeight = 64
 			buttWidth = buttHeight*4
-			self.button('START GAME',(WIDTH-buttWidth)/2,HEIGHT*8/12,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.lvl)
-			self.button('EXIT',(WIDTH-buttWidth)/2,HEIGHT*10/12,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.quit)
-			#buttHeight = 64
-			#buttWidth = buttHeight*4
-			#self.button('START GAME', (WIDTH-buttWidth)/2,HEIGHT*2/3,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.lvl)
-			#self.button('credits', (WIDTH-buttWidth)/2,HEIGHT*2/3+70,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL)
-			#self.button('EXIT', (WIDTH-buttWidth)/2,HEIGHT*2/3+140,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.quit)
+			self.button('START GAME', WIDTH/2, HEIGHT*2/3, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.lvl)
+			self.button('credits', WIDTH/2, HEIGHT*2/3+70, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.creds)
+			self.button('EXIT', WIDTH/2, HEIGHT*2/3+140, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.quit)
+			pg.display.update()
+
+	def creds(self):
+		pg.event.wait()
+		self.creBool = True
+
+		def ditsBool():
+			self.creBool = False
+
+		while self.creBool:
+			for event in pg.event.get():
+				if event.type == pg.QUIT:
+					self.quit()
+			self.screen.fill(BLACK)
+			with open(path.join(GAMEFOLDER, 'credits.txt'),'r') as f:
+				liney = 15
+				for line in f:
+					line = str(line.strip())
+					self.draw_text(self.screen, line, WHITE, 15, WIDTH/2, liney)
+					liney += 16
+			self.button('<- BACK',105,5,50*4,50,BUTTSHADOWCOL,BUTTCOL,ditsBool)
 			pg.display.update()
 
 	def pause(self):
@@ -249,6 +253,7 @@ class Game:
 
 g = Game()
 while True:
+	g.intro()
 	g.main()
 #	g.lvl()
 #	g.run()

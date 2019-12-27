@@ -1,0 +1,44 @@
+MUSIC:
+
+[MENU]
+Übermensch by Cleyton Kauffman - https://soundcloud.com/cleytonkauffman
+	https://opengameart.org/content/epic-main-menu-theme-loop
+
+[PLAY]
+Sylvan Waltz by Otto Halmén
+	https://opengameart.org/content/sylvan-waltz-standard-looped-version
+
+
+PICTURES:
+
+[INTRO]
+justbeautifulandlem.jpg
+	https://www.facebook.com/PomyslyZwariowaneLubGenialne/photos/a.960120854060057/3003352646403524/
+
+[MAIN MENU]
+justbeautifulandbinary.gif
+	https://giphy.com/gifs/robot-book-scifi-q4hxvLu7emb28
+
+[ROBOKU]
+brawlbot_idle_preview.gif - graphicsdojo.com
+	https://opengameart.org/content/robot-sprite-brawlbot
+
+[DOOR]
+castledoors.png - Castle door by Tuomo Untinen
+	https://opengameart.org/content/castle-door
+
+[ITEM]
+haakbier.gif
+	https://opengameart.org/content/happy-beer-mug-animated
+
+[POND]
+sea.png
+	https://opengameart.org/content/pastel-resources-tiles-96x96
+
+[TREES]
+tile_019.png - Canvas Digital Studios
+	https://opengameart.org/users/canvas-digital-studios
+
+[WALL]
+wall.png
+	https://opengameart.org/content/seamless-wall
