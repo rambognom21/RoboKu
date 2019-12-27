@@ -146,6 +146,11 @@ class Game:
 			buttWidth = buttHeight*4
 			self.button('START GAME',(WIDTH-buttWidth)/2,HEIGHT*8/12,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.lvl)
 			self.button('EXIT',(WIDTH-buttWidth)/2,HEIGHT*10/12,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.quit)
+			#buttHeight = 64
+			#buttWidth = buttHeight*4
+			#self.button('START GAME', (WIDTH-buttWidth)/2,HEIGHT*2/3,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.lvl)
+			#self.button('credits', (WIDTH-buttWidth)/2,HEIGHT*2/3+70,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL)
+			#self.button('EXIT', (WIDTH-buttWidth)/2,HEIGHT*2/3+140,buttWidth,buttHeight,BUTTSHADOWCOL,BUTTCOL,self.quit)
 			pg.display.update()
 
 	def pause(self):
