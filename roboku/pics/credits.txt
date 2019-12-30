@@ -24,3 +24,6 @@ justbeautifulandlem.jpg
 
 justbeautifulandbinary.gif
 	https://giphy.com/gifs/robot-book-scifi-q4hxvLu7emb28
+
+thunderburdfeather.png
+	https://opengameart.org/content/feather-icons

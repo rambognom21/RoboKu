@@ -9,6 +9,11 @@ class Game:
 		self.screen = pg.display.set_mode((WIDTH, HEIGHT))
 		pg.display.set_caption(TITLE)
 		pg.key.set_repeat(250, 50)#delay,interval
+		#pg.mouse.set_cursor((8,8),(7,7),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))#makes transparent cursor
+		pg.mouse.set_cursor((16, 16), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
+		self.mousePic = pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'thunderburdfeather.png')).convert_alpha(), (64,64))
+		#self.mousePos = pg.mouse.get_pos()#dunno why is not working(see: button)
+		#self.click = pg.mouse.get_pressed()#dunno why is not working(see: button)
 		self.load_map()
 		
 	def load_map(self):
@@ -70,14 +75,15 @@ class Game:
 			self.screen.blit(barPic,(x+point*TILESIZE/2,y))
 
 	def button(self, butTxt,bxMid,byTop,bWidth,bHeight,activeColor,inactiveColor,action=None):
-		mouse = pg.mouse.get_pos()
+		mousePos = pg.mouse.get_pos()
 		click = pg.mouse.get_pressed()
-
 		buttRect = pg.Rect(bxMid,byTop,bWidth,bHeight)
 		buttRect.midtop = (bxMid,byTop)
 
-		if bxMid+bWidth/2 > mouse[0] > bxMid-bWidth/2 and byTop+bHeight > mouse[1] > byTop:
+		#if bxMid+bWidth/2 > self.mousePos[0] > bxMid-bWidth/2 and byTop+bHeight > self.mousePos[1] > byTop:
+		if bxMid+bWidth/2 > mousePos[0] > bxMid-bWidth/2 and byTop+bHeight > mousePos[1] > byTop:
 			pg.draw.rect(self.screen, activeColor, buttRect)
+			#if self.click[0] == 1 and action != None:
 			if click[0] == 1 and action != None:
 				action()
 		else:
@@ -132,8 +138,9 @@ class Game:
 			buttHeight = 64
 			buttWidth = buttHeight*4
 			self.button('START GAME', WIDTH/2, HEIGHT*2/3, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.lvl)
-			self.button('credits', WIDTH/2, HEIGHT*2/3+70, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.creds)
+			self.button('credits', WIDTH/2, HEIGHT*2/3+70, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.creds)#jak wychodzi z kredytow to reszta sie rysuje...
 			self.button('EXIT', WIDTH/2, HEIGHT*2/3+140, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.quit)
+			self.screen.blit(self.mousePic,pg.mouse.get_pos())
 			pg.display.update()
 
 	def creds(self):
@@ -141,6 +148,7 @@ class Game:
 		self.creBool = True
 
 		def ditsBool():
+			#pg.event.wait()
 			self.creBool = False
 
 		while self.creBool:
@@ -153,8 +161,9 @@ class Game:
 				for line in f:
 					line = str(line.strip())
 					self.draw_text(self.screen, line, WHITE, 15, WIDTH/2, liney)
-					liney += 16
+					liney += 15
 			self.button('<- BACK',105,5,50*4,50,BUTTSHADOWCOL,BUTTCOL,ditsBool)
+			self.screen.blit(self.mousePic,pg.mouse.get_pos())
 			pg.display.update()
 
 	def pause(self):

@@ -19,6 +19,10 @@ justbeautifulandlem.jpg
 justbeautifulandbinary.gif
 	https://giphy.com/gifs/robot-book-scifi-q4hxvLu7emb28
 
+[CURSOR]
+thunderburdfeather.png
+	https://opengameart.org/content/feather-icons
+
 [ROBOKU]
 brawlbot_idle_preview.gif - graphicsdojo.com
 	https://opengameart.org/content/robot-sprite-brawlbot
