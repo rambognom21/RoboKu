@@ -17,18 +17,24 @@ class Game:
 		self.load_map()
 		
 	def load_map(self):
+		#	reading map from file	#
 		self.map = []
 		with open(path.join(GAMEFOLDER, 'map.txt'),'rt') as f:#test.txt,map.txt
 			self.map = [line.rstrip() for line in f]
 
 	def lvl(self):
+		#	Generating? level	#
 		self.stop = False
 		self.score = 0
+
+		#	groups declaration	#
 		self.all_sprites = pg.sprite.Group()
 		self.obstacles = pg.sprite.Group()	#inability to step on it
 		self.waters = pg.sprite.Group()	#cannot swim!
 		self.items = pg.sprite.Group()
 		self.wins = pg.sprite.GroupSingle()
+
+		#	creating sprites	#
 		for row, tiles in enumerate(self.map):
 			for col, tile in enumerate(tiles):
 				if tile == 'R':
@@ -47,9 +53,9 @@ class Game:
 #					Grass(self, col, row)
 		self.run()
 
-	def text_Obj(self, text, font):
-		textSurface = font.render(text, True, BLACK)
-		return textSurface, textSurface.get_rect()
+#	def text_Obj(self, text, font):
+#		textSurface = font.render(text, True, BLACK)
+#		return textSurface, textSurface.get_rect()
 
 	def draw_text(self, surf, text, color, size, x, y):
 		font_name = pg.font.match_font('arial')
@@ -63,7 +69,7 @@ class Game:
 		barPic = pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert()
 		barPic = pg.transform.scale(barPic, (int(TILESIZE/2),int(TILESIZE/2)))
 		barPicRect = barPic.get_rect()
-		#
+		
 		BAR_LENGTH = TILESIZE/2*7
 		BAR_HEIGHT = TILESIZE/2
 		fill = sco * BAR_LENGTH/7
@@ -90,16 +96,6 @@ class Game:
 			pg.draw.rect(self.screen, inactiveColor, buttRect)
 		self.draw_text(self.screen, butTxt, BLACK, bHeight/3, bxMid, byTop+bHeight/3)
 
-	def run(self):
-		pg.mixer.music.stop()
-		pg.mixer.music.load(path.join(SNDFOLDER, 'SylvanWaltzmp3.mp3'))
-		pg.mixer.music.set_volume(0.2)
-		pg.mixer.music.play(-1)
-		while True:
-			self.events()
-			self.update()
-			self.draw()
-
 	def intro(self):
 		self.introBool = True
 		while self.introBool:
@@ -118,6 +114,7 @@ class Game:
 			pg.display.update()
 
 	def main(self):
+		#self.intro()
 		pg.mixer.music.load(path.join(SNDFOLDER, 'Ubermenschwav.wav'))
 		pg.mixer.music.set_volume(0.2)
 		pg.mixer.music.play(-1)
@@ -138,12 +135,15 @@ class Game:
 			buttHeight = 64
 			buttWidth = buttHeight*4
 			self.button('START GAME', WIDTH/2, HEIGHT*2/3, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.lvl)
-			self.button('credits', WIDTH/2, HEIGHT*2/3+70, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.creds)#jak wychodzi z kredytow to reszta sie rysuje...
+			self.button('credits', WIDTH/2, HEIGHT*2/3+70, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.creds)#jak wychodzi z kredytow to reszta sie rysuje... mozna na koniec wrzucic ale to dupa a nie rozwiazanie problemu!
+			#if self.creBool == False:
+			#	continue
 			self.button('EXIT', WIDTH/2, HEIGHT*2/3+140, buttWidth, buttHeight, BUTTSHADOWCOL, BUTTCOL, self.quit)
 			self.screen.blit(self.mousePic,pg.mouse.get_pos())
 			pg.display.update()
 
 	def creds(self):
+		#	credits screen	#
 		pg.event.wait()
 		self.creBool = True
 
@@ -167,6 +167,7 @@ class Game:
 			pg.display.update()
 
 	def pause(self):
+		#	pause screen	#
 		pg.event.wait()
 		pg.mixer.music.stop()
 		pg.mixer.music.load(path.join(SNDFOLDER, 'Ubermenschwav.wav'))
@@ -191,6 +192,7 @@ class Game:
 			pg.display.update()
 
 	def win(self):
+		#	win screen	#
 		while self.stop:
 			for event in pg.event.get():
 				if event.type == pg.QUIT:
@@ -213,6 +215,35 @@ class Game:
 	def quit(self):
 		pg.quit()
 		sys.exit()
+
+	def run(self):
+		pg.mixer.music.stop()
+		pg.mixer.music.load(path.join(SNDFOLDER, 'SylvanWaltzmp3.mp3'))
+		pg.mixer.music.set_volume(0.2)
+		pg.mixer.music.play(-1)
+		while True:
+			self.events()
+			self.update()
+			self.draw()
+
+	def events(self):
+		for event in pg.event.get():
+			if event.type == pg.QUIT:
+				self.quit()
+			if event.type == pg.KEYDOWN:
+				#if event.key == pg.K_ESCAPE:
+				#	self.quit()
+				if event.key == pg.K_a:
+					self.player.move(dx=-1)
+				if event.key == pg.K_d:
+					self.player.move(dx=1)
+				if event.key == pg.K_w:
+					self.player.move(dy=-1)
+				if event.key == pg.K_s:
+					self.player.move(dy=1)
+				if event.key == pg.K_SPACE:
+					self.stop = True
+					self.pause()
 
 	def update(self):
 		#player collects an item
@@ -240,25 +271,6 @@ class Game:
 			self.win()
 			#self.draw_text(self.screen, "YOU WON", RED, 100, WIDTH/2, HEIGHT/2-100)
 		pg.display.flip()
-
-	def events(self):
-		for event in pg.event.get():
-			if event.type == pg.QUIT:
-				self.quit()
-			if event.type == pg.KEYDOWN:
-				#if event.key == pg.K_ESCAPE:
-				#	self.quit()
-				if event.key == pg.K_a:
-					self.player.move(dx=-1)
-				if event.key == pg.K_d:
-					self.player.move(dx=1)
-				if event.key == pg.K_w:
-					self.player.move(dy=-1)
-				if event.key == pg.K_s:
-					self.player.move(dy=1)
-				if event.key == pg.K_SPACE:
-					self.stop = True
-					self.pause()
 
 g = Game()
 while True:
