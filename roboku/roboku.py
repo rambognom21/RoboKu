@@ -8,6 +8,7 @@ class Game:
 		pg.mixer.init()
 		self.screen = pg.display.set_mode((WIDTH, HEIGHT))
 		pg.display.set_caption(TITLE)
+		self.clock = pg.time.Clock()
 		pg.key.set_repeat(250, 50)#delay,interval
 		#pg.mouse.set_cursor((8,8),(7,7),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))#makes transparent cursor
 		pg.mouse.set_cursor((16, 16), (0, 0), (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
@@ -15,6 +16,7 @@ class Game:
 		#self.mousePos = pg.mouse.get_pos()#dunno why is not working(see: button)
 		#self.click = pg.mouse.get_pressed()#dunno why is not working(see: button)
 		self.load_map()
+
 		
 	def load_map(self):
 		#	reading map from file	#
@@ -51,6 +53,7 @@ class Game:
 					Wall(self, col, row)
 #				if tile == ',':
 #					Grass(self, col, row)
+		self.maxscore = len(self.items)
 		self.run()
 
 #	def text_Obj(self, text, font):
@@ -210,13 +213,33 @@ class Game:
 			pg.display.update()
 
 	def loose(self):
-		pass
+		self.stop = True
+		#	loose screen	#
+		while self.stop:
+			for event in pg.event.get():
+				if event.type == pg.QUIT:
+					self.quit()
+				if event.type == pg.KEYDOWN:
+					if event.key == pg.K_SPACE:
+						self.main()
+				if event.type == pg.KEYDOWN:
+					if event.key == pg.K_ESCAPE:
+						self.quit()
+						
+			self.screen.fill((0,0,0,80))
+			self.draw_text(self.screen, "YOU LOOSE", WHITE, 99, WIDTH/2, HEIGHT/2-100)
+			self.draw_text(self.screen, "YOU LOOSE", RED, 100, WIDTH/2, HEIGHT/2-100)
+#			self.draw_text(self.screen, "Press ENTER to play again or", WHITE, 20, WIDTH/2, HEIGHT-50)
+			self.draw_text(self.screen, "Press SPACE to go back to main menu", WHITE, 20, WIDTH/2, HEIGHT-60)
+			self.draw_text(self.screen, "Press ESC to exit the window", WHITE, 20, WIDTH/2, HEIGHT-30)
+			pg.display.update()
 
 	def quit(self):
 		pg.quit()
 		sys.exit()
 
 	def run(self):
+		self.clock.tick(FPS)
 		pg.mixer.music.stop()
 		pg.mixer.music.load(path.join(SNDFOLDER, 'SylvanWaltzmp3.mp3'))
 		pg.mixer.music.set_volume(0.2)
@@ -250,12 +273,13 @@ class Game:
 		gotits = pg.sprite.spritecollide(self.player,self.items,True)
 		for gotit in gotits:
 			self.score+=1
-			#if all items gathered (no item in items):
-			if len(self.items) == 0:
-				self.obstacles.remove(self.door)
-				self.wins.add(self.door)
+		#if all items gathered (no item in items):
+		if len(self.items) == 0:
+			self.obstacles.remove(self.door)
 		self.all_sprites.update()
 		justonemorestep = pg.sprite.spritecollide(self.player,self.wins,True)
+		if self.score > self.maxscore*0.4:
+			self.player.drunk()
 
 	def draw(self):
 		self.screen.fill(BGCOLOR)
