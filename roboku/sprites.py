@@ -45,56 +45,54 @@ class RoboKu(pg.sprite.Sprite):
 				return True
 		return False
 
-	def drunk(self):
-		now = pg.time.get_ticks()
-
-		def knurd(message,delay,drunkedom = False):
-			if (now-self.lastShot[0]) == delay:
-				self.scotoma = (random.randrange(0, WIDTH-TILESIZE), random.randrange(0, HEIGHT-TILESIZE))
-				#scotomax = random.randrange(0, WIDTH-TILESIZE)#scotomay = random.randrange(0, HEIGHT-TILESIZE)
-			if (now-self.lastShot[1]) == delay:
-				self.repercussion = self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2), self.rect.y+random.randrange(-TILESIZE/2, TILESIZE)
-				#repercussionx = self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2)#repercussiony = self.rect.y+random.randrange(-TILESIZE/2, TILESIZE)
-
-			if (now-self.lastShot[0]) > delay:
-				#self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),(random.randrange(-TILESIZE, WIDTH-TILESIZE),random.randrange(-TILESIZE, HEIGHT-TILESIZE)))
-				#scotoma = (random.randrange(0, WIDTH-TILESIZE),random.randrange(0, HEIGHT-TILESIZE))
-				if now-self.lastShot[0] < delay+delay/2:
-					self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),self.scotoma)
-					#self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),(scotomax,scotomay))
-				if now-self.lastShot[0] == delay+delay/2:
-					self.lastShot[0] = now
-				#pg.display.flip()
-
-			if (now-self.lastShot[1]) > (delay+50):
-				#repercussion = self.game.draw_text(self.game.screen, message, WHITE, 20, self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2), self.rect.y+random.randrange(-TILESIZE/2, TILESIZE))
-				if now-self.lastShot[1] < delay+delay+50:
-					self.game.draw_text(self.game.screen, message, WHITE, 20, self.repercussion)
-					#self.game.draw_text(self.game.screen, message, WHITE, 20, repercussionx, repercussiony)
-				if now-self.lastShot[1] == delay+delay+50:
-					self.lastShot[1] = now
-				#pg.display.flip()
-
-			if drunkedom and ((now-self.lastShot[2]) > (2*delay)):
-				self.lastShot[2] = now
-				self.move(random.randrange(-1,1,1),random.randrange(-1,1,1))
-			pg.display.flip()
-
-		if 0 <= self.game.score <= self.game.maxscore*0.4:#[]0 to []30% 7:{0,1,2}
-			pass
-		else:
-			if self.game.maxscore*0.4 < self.game.score < self.game.maxscore*0.7:#()30% to ()60% 7:{3,4}
-				message = ""
-				knurd(message,500)
-			if self.game.maxscore*0.7 <= self.game.score < self.game.maxscore:#[]60% to ()100% 7:{5,6}
-				message = "HIK!"
-				knurd(message,250)
-			if len(self.game.items) == 0:
-			#if (self.game.maxscore - 1) < self.game.score < (self.game.maxscore):
-				message = "Am so drunk..."
-				knurd(message,200,True)
-	
-
+#	def drunk(self):
+#		now = pg.time.get_ticks()
+#		def knurd(message,delay,drunkedom = False):
+#			if (now-self.lastShot[0]) == delay:
+#				self.scotoma = (random.randrange(0, WIDTH-TILESIZE), random.randrange(0, HEIGHT-TILESIZE))
+#				#scotomax = random.randrange(0, WIDTH-TILESIZE)#scotomay = random.randrange(0, HEIGHT-TILESIZE)
+#			if (now-self.lastShot[1]) == delay:
+#				self.repercussion = self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2), self.rect.y+random.randrange(-TILESIZE/2, TILESIZE)
+#				#repercussionx = self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2)#repercussiony = self.rect.y+random.randrange(-TILESIZE/2, TILESIZE)
+#
+#			if (now-self.lastShot[0]) > delay:
+#				##self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),(random.randrange(-TILESIZE, WIDTH-TILESIZE),random.randrange(-TILESIZE, HEIGHT-TILESIZE)))
+#				#scotoma = (random.randrange(0, WIDTH-TILESIZE),random.randrange(0, HEIGHT-TILESIZE))
+#				if now-self.lastShot[0] < delay+delay/2:
+#					self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),self.scotoma)
+#					#self.game.screen.blit(pg.transform.scale(pg.image.load(path.join(PICSFOLDER,'haakbier.gif')).convert_alpha(),(TILESIZE,TILESIZE)),(scotomax,scotomay))
+#				if now-self.lastShot[0] == delay+delay/2:
+#					self.lastShot[0] = now
+#				#pg.display.flip()
+#
+#			if (now-self.lastShot[1]) > (delay+50):
+#				#repercussion = self.game.draw_text(self.game.screen, message, WHITE, 20, self.rect.x+random.randrange(-TILESIZE/2, TILESIZE/2), self.rect.y+random.randrange(-TILESIZE/2, TILESIZE))
+#				if now-self.lastShot[1] < delay+delay+50:
+#					self.game.draw_text(self.game.screen, message, WHITE, 20, self.repercussion)
+#					#self.game.draw_text(self.game.screen, message, WHITE, 20, repercussionx, repercussiony)
+#				if now-self.lastShot[1] == delay+delay+50:
+#					self.lastShot[1] = now
+#				#pg.display.flip()
+#
+#			if drunkedom and ((now-self.lastShot[2]) > (2*delay)):
+#				self.lastShot[2] = now
+#				self.move(random.randrange(-1,1,1),random.randrange(-1,1,1))
+#			pg.display.flip()
+#
+#		if 0 <= self.game.score <= self.game.maxscore*0.4:#[]0 to []30% 7:{0,1,2}
+#			pass
+#		else:
+#			if self.game.maxscore*0.4 < self.game.score < self.game.maxscore*0.7:#()30% to ()60% 7:{3,4}
+#				message = ""
+#				knurd(message,500)
+#			if self.game.maxscore*0.7 <= self.game.score < self.game.maxscore:#[]60% to ()100% 7:{5,6}
+#				message = "HIK!"
+#				knurd(message,250)
+#			if len(self.game.items) == 0:
+#			#if (self.game.maxscore - 1) < self.game.score < (self.game.maxscore):
+#				message = "Am so drunk..."
+#				knurd(message,200,True)
+#
 	def update(self):
 		self.rect.x = self.x * TILESIZE
 		self.rect.y = self.y * TILESIZE

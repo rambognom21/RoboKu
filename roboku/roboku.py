@@ -62,7 +62,7 @@ class Game:
 
 	def draw_text(self, surf, text, color, size, x, y):
 		font_name = pg.font.match_font('arial')
-		font = pg.font.Font(font_name, size)
+		font = pg.font.Font(font_name, int(size))
 		text_surface = font.render(text, True, color)
 		text_rect = text_surface.get_rect()
 		text_rect.midtop = (x,y)
@@ -113,7 +113,8 @@ class Game:
 			introPicRect = introPic.get_rect()
 			introPicRect.midtop = (WIDTH/2, HEIGHT/8)
 			self.screen.blit(introPic,introPicRect)
-			self.draw_text(self.screen, "Press SPACE to skip", WHITE, 20, WIDTH/2, HEIGHT-20)
+			#self.draw_text(self.screen, "Press SPACE to skip", WHITE, 20, WIDTH/2, HEIGHT-20)
+			self.draw_text(self.screen, "Press SPACE to skip", WHITE, 20, WIDTH/2, 0)
 			pg.display.update()
 
 	def main(self):
@@ -278,8 +279,8 @@ class Game:
 			self.obstacles.remove(self.door)
 		self.all_sprites.update()
 		justonemorestep = pg.sprite.spritecollide(self.player,self.wins,True)
-		if self.score > self.maxscore*0.4:
-			self.player.drunk()
+		#if self.score > self.maxscore*0.4:
+		#	self.player.drunk()
 
 	def draw(self):
 		self.screen.fill(BGCOLOR)
